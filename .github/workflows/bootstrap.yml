@@ -1,0 +1,32 @@
+name: Install beta source
+on:
+  push:
+    paths:
+      - 'smiles-audit-streamlit-v0.31.zip'
+      - '.github/workflows/bootstrap.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install verified beta files
+        shell: bash
+        run: |
+          if [ ! -f smiles-audit-streamlit-v0.31.zip ]; then exit 0; fi
+          unzip -q smiles-audit-streamlit-v0.31.zip -d /tmp/smiles-release
+          cp -R /tmp/smiles-release/smiles-audit-streamlit/. .
+          python3 - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          for name,digest in json.loads(Path('SHA256SUMS.json').read_text()).items():
+              assert hashlib.sha256(Path(name).read_bytes()).hexdigest()==digest,name
+          PY
+          rm smiles-audit-streamlit-v0.31.zip
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m 'Install verified Streamlit beta v0.31 source'
+          git push
