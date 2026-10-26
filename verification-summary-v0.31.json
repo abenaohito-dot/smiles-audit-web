@@ -1,0 +1,24 @@
+{
+  "web_version": "0.31.0",
+  "engine_version": "0.30.0",
+  "engine_sources_unchanged": true,
+  "engine_python_files_verified": 18,
+  "prior_engine_regression": 715,
+  "current_web_tests": 6,
+  "web_test_seconds": 16.245,
+  "test_log": "test-results-cloud-release-v0.31.txt",
+  "tests": [
+    "real NISPO generation and manual candidate retention",
+    "invalid and overlength inputs",
+    "120-second deadline kills process group",
+    "malformed worker result",
+    "Streamlit real result, report export control and stale-result invalidation",
+    "one concurrent calculation across sessions"
+  ],
+  "deployment": "not yet deployed; GitHub/Streamlit sign-in required",
+  "platform": "Streamlit Community Cloud",
+  "python": "3.13",
+  "java": "default-jdk-headless via packages.txt",
+  "preview": "http://127.0.0.1:8502/",
+  "verification_limit": "Local macOS smoke tests and browser verification; Linux Community Cloud build and resource usage await deployment."
+}
