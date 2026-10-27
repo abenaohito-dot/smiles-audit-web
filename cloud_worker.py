@@ -3,7 +3,12 @@ import json
 import sys
 
 def main():
-    from audit import audit
+    try:
+        from audit import audit
+    except (ImportError, OSError) as exc:
+        # Import runs before input is read; this diagnostic cannot contain a molecule.
+        print(json.dumps({'error': '計算エンジンを読み込めません: ' + str(exc)}, ensure_ascii=False))
+        return
     try:
         data = json.load(sys.stdin)
         result = audit(data['smiles'], data.get('candidate', ''))
